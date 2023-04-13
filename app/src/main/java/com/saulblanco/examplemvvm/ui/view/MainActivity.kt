@@ -9,7 +9,9 @@ import androidx.lifecycle.Observer
 import com.saulblanco.examplemvvm.R
 import com.saulblanco.examplemvvm.databinding.ActivityMainBinding
 import com.saulblanco.examplemvvm.ui.viewmodel.QuoteViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

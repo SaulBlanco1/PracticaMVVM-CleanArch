@@ -6,16 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.saulblanco.examplemvvm.data.model.QuoteModel
 import com.saulblanco.examplemvvm.domain.GetQuotesUseCase
 import com.saulblanco.examplemvvm.domain.GetRandomQuoteUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 //Con :ViewModel() le decimos que extienda de viewmodel
-class QuoteViewModel : ViewModel() {
+@HiltViewModel
+class QuoteViewModel @Inject constructor(
+    private val getQuotesUseCase:GetQuotesUseCase,
+    private val getRandomQuoteUseCase:GetRandomQuoteUseCase
+) : ViewModel() {
 
     val quoteModel = MutableLiveData<QuoteModel>()
     val isLoading = MutableLiveData<Boolean>()
 
-    var getQuotesUseCase = GetQuotesUseCase()
-    var getRandomQuoteUseCase = GetRandomQuoteUseCase()
 
     fun onCreate() {
         //Se lanza la corrutina y se controla sola automáticamente con el viewModelScope

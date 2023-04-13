@@ -1,8 +1,11 @@
 package com.saulblanco.examplemvvm.data.model
 
-class QuoteProvider {
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class QuoteProvider @Inject constructor() {
     //CompanionObject es como una clase estatica
-    companion object {
-        var quotes: List<QuoteModel> = emptyList()
-    }
+    var quotes: List<QuoteModel> = emptyList()
+
 }

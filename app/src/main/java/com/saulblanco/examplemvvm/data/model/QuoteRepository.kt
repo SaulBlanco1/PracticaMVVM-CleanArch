@@ -1,16 +1,14 @@
 package com.saulblanco.examplemvvm.data.model
 
 import com.saulblanco.examplemvvm.data.model.network.QuoteService
+import javax.inject.Inject
 
-class QuoteRepository {
-
-    private val api = QuoteService()
-
+class QuoteRepository @Inject constructor(private val api: QuoteService, private val quoteProvider:QuoteProvider) {
     //La primera vez que se conecta, recibe de la "api" la información, la almacena en memoria
     //en nuestra "BD"(QuoteProvider) y la devuelve
     suspend fun getAllQuotes(): List<QuoteModel> {
         val response = api.getQuotes()
-        QuoteProvider.quotes = response
+        quoteProvider.quotes = response
         return response
     }
 }
