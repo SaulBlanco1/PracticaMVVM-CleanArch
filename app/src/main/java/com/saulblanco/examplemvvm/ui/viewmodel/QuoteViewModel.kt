@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.saulblanco.examplemvvm.data.model.QuoteModel
 import com.saulblanco.examplemvvm.domain.GetQuotesUseCase
 import com.saulblanco.examplemvvm.domain.GetRandomQuoteUseCase
+import com.saulblanco.examplemvvm.domain.model.Quote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,11 +14,11 @@ import javax.inject.Inject
 //Con :ViewModel() le decimos que extienda de viewmodel
 @HiltViewModel
 class QuoteViewModel @Inject constructor(
-    private val getQuotesUseCase:GetQuotesUseCase,
-    private val getRandomQuoteUseCase:GetRandomQuoteUseCase
+    private val getQuotesUseCase: GetQuotesUseCase,
+    private val getRandomQuoteUseCase: GetRandomQuoteUseCase
 ) : ViewModel() {
 
-    val quoteModel = MutableLiveData<QuoteModel>()
+    val quoteModel = MutableLiveData<Quote>()
     val isLoading = MutableLiveData<Boolean>()
 
 
@@ -36,14 +37,16 @@ class QuoteViewModel @Inject constructor(
     }
 
     fun randomQuote() {
-        isLoading.postValue(true)
-        val quote = getRandomQuoteUseCase()
-        if (quote != null) {
-            quoteModel.postValue(quote)
+        viewModelScope.launch {
+
+            isLoading.postValue(true)
+            val quote = getRandomQuoteUseCase()
+            if (quote != null) {
+                quoteModel.postValue(quote)
+            }
+
+            isLoading.postValue(false)
         }
-
-        isLoading.postValue(false)
     }
-
 
 }

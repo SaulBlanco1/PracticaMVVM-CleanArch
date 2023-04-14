@@ -1,14 +1,14 @@
 package com.saulblanco.examplemvvm.domain
 
 import com.saulblanco.examplemvvm.data.model.QuoteModel
-import com.saulblanco.examplemvvm.data.model.QuoteProvider
+import com.saulblanco.examplemvvm.data.model.QuoteRepository
+import com.saulblanco.examplemvvm.domain.model.Quote
 import javax.inject.Inject
 
-class GetRandomQuoteUseCase @Inject constructor(private val quoteProvider: QuoteProvider){
+class GetRandomQuoteUseCase @Inject constructor(private val repository: QuoteRepository ){
+    suspend operator fun invoke(): Quote? {
 
-
-    operator fun invoke(): QuoteModel? {
-        val quotes = quoteProvider.quotes
+        val quotes = repository.getAllQuotesFromDatabase()
         if (!quotes.isNullOrEmpty()) {
             val randomNumber = (quotes.indices).random()
             return quotes[randomNumber]
